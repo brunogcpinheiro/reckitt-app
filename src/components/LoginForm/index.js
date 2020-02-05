@@ -51,13 +51,6 @@ const LoginForm = () => {
             Entrar
           </S.LoginButton>
         </S.FormControlElement>
-        {/* <p v-if="feedback" class="error--message">{{ feedback }}</p> */}
-        {/* <loading
-          :active="isLoading"
-          :is-full-page="fullPage"
-          color="#db338f"
-          loader="dots"
-        /> */}
       </S.MainFormWrapper>
       <S.RegisterWrapper>
         <p>
