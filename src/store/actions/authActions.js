@@ -1,6 +1,28 @@
-import { SET_USER, LOADING_USER, SET_UNAUTHENTICATED } from "../types";
+import {
+  SET_AUTHENTICATED,
+  SET_USER,
+  LOADING_USER,
+  SET_UNAUTHENTICATED,
+} from "../types";
 
 import { firebaseAuth, firebaseStore } from "../../firebase/init";
+
+export const loginUser = (email, password, history) => dispatch => {
+  dispatch({ type: LOADING_USER });
+  if (email && password) {
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        dispatch({ type: SET_AUTHENTICATED });
+        history.push("/initial");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  } else {
+    alert("Please put your credentials!");
+  }
+};
 
 export const getUserData = () => dispatch => {
   // TODO LOCAL STORAGE TOKEN
@@ -23,12 +45,8 @@ export const getUserData = () => dispatch => {
 };
 
 export const logoutUser = history => dispatch => {
-  // TODO LOCAL STORAGE TOKEN
-  //delete axios.defaults.headers.common['Authorization'];
-  firebaseAuth
-    .signOut()
-    .then(() => {
-      history.push("/");
-    })
-    .then(() => dispatch({ type: SET_UNAUTHENTICATED }));
+  firebaseAuth.signOut().then(() => {
+    dispatch({ type: SET_UNAUTHENTICATED });
+    history.push("/");
+  });
 };

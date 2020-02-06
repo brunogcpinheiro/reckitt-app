@@ -1,6 +1,7 @@
 import React from "react";
-
 import { Switch, Route } from "react-router-dom";
+
+import PrivateRoute from "../utils/PrivateRoute";
 
 // Import Components
 import Login from "../components/LoginForm";
@@ -11,7 +12,7 @@ const Routes = () => (
   <Switch>
     <Route exact path="/" component={Login} />
     <Route exact path="/signup" component={Signup} />
-    <Route exact path="/initial" component={InitialPage} />
+    <PrivateRoute exact path="/initial" component={InitialPage} />
   </Switch>
 );
 

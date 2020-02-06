@@ -1,30 +1,22 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { firebaseAuth } from "../../firebase/init";
+import { useDispatch } from "react-redux";
 
+import { loginUser } from "../../store/actions/authActions";
 import Logo from "../../assets/logo.png";
 import * as S from "./styles";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   let history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (email && password) {
-      firebaseAuth
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          history.push("/initial");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      alert("Please put your credentials!");
-    }
+    dispatch(loginUser(email, password, history));
   };
 
   return (
