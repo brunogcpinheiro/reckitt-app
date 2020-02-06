@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-import { firebaseStore, firebaseAuth } from "../../firebase/init";
+import { firebaseAuth } from "../../firebase/init";
+import { getUserData } from "../../store/actions/authActions";
 import * as S from "./styles";
 
 const Header = () => {
   let history = useHistory();
-  const [user, setUser] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let authUser = firebaseAuth.currentUser;
-    firebaseStore
-      .collection("users")
-      .where("user_id", "==", authUser.uid)
-      .get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-          setUser(doc.data().name);
-        });
-      });
-  }, []);
+    dispatch(getUserData());
+  }, [dispatch]);
+
+  const user = useSelector(state => state.auth.credentials);
 
   const logout = () => {
     //this.isLoading = true;
@@ -34,7 +29,7 @@ const Header = () => {
       <div>
         <S.GreetWrapper>
           <h3>Bem vindo,</h3>
-          <p>{user}!</p>
+          <p>{user.name}!</p>
         </S.GreetWrapper>
       </div>
       <S.Logout onClick={logout}>
