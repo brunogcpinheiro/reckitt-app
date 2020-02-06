@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import bcrypt from "bcryptjs";
-import slugify from "slugify";
+import { useDispatch } from "react-redux";
 
-import { firebaseAuth, firebaseStore } from "../../firebase/init";
-
+import { signupUser } from "../../store/actions/authActions";
 import Logo from "../../assets/logo.png";
 import * as S from "./styles";
 
@@ -13,47 +11,18 @@ const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (name && email && password) {
-      let slug = slugify(name, {
-        replacement: "-",
-        remove: /[$*_+~.()'"!\-:@]/g,
-        lower: true,
-      });
-
-      let ref = firebaseStore.collection("users").doc(slug);
-
-      ref.get().then(doc => {
-        if (doc.exists) {
-          alert("Usuário já cadastrado!");
-        } else {
-          firebaseAuth
-            .createUserWithEmailAndPassword(email, password)
-            .then(cred => {
-              const hash = bcrypt.hashSync(password, 3);
-              ref
-                .set({
-                  name,
-                  email,
-                  password: hash,
-                  isAdmin: false,
-                  user_id: cred.user.uid,
-                })
-                .then(() => {
-                  history.push("/");
-                });
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        }
-      });
-    } else {
-      alert("Complete all fields!");
+    const newUser = {
+      name,
+      email,
+      password
     }
+
+    dispatch(signupUser(newUser, history));
   };
 
   return (
