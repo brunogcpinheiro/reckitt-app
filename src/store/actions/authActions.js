@@ -1,8 +1,9 @@
-import { SET_USER, LOADING_USER } from "../types";
+import { SET_USER, LOADING_USER, SET_UNAUTHENTICATED } from "../types";
 
 import { firebaseAuth, firebaseStore } from "../../firebase/init";
 
 export const getUserData = () => dispatch => {
+  // TODO LOCAL STORAGE TOKEN
   dispatch({ type: LOADING_USER });
   let currentUser = firebaseAuth.currentUser;
 
@@ -19,4 +20,15 @@ export const getUserData = () => dispatch => {
       });
     })
     .catch(err => console.log(err));
+};
+
+export const logoutUser = history => dispatch => {
+  // TODO LOCAL STORAGE TOKEN
+  //delete axios.defaults.headers.common['Authorization'];
+  firebaseAuth
+    .signOut()
+    .then(() => {
+      history.push("/");
+    })
+    .then(() => dispatch({ type: SET_UNAUTHENTICATED }));
 };
