@@ -1,9 +1,15 @@
 import React from "react";
 
 import Header from "../components/Header";
+import InitialHeader from "../components/InitialHeader";
 
 const InitialPage = () => {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <InitialHeader />
+    </>
+  );
 };
 
 export default InitialPage;
