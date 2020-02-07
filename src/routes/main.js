@@ -4,8 +4,8 @@ import { Switch, Route } from "react-router-dom";
 import PrivateRoute from "../utils/PrivateRoute";
 
 // Import Components
-import Login from "../components/LoginForm";
-import Signup from "../components/SignupForm";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
 import InitialPage from "../pages/Initial";
 
 const Routes = () => (
