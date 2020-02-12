@@ -17,7 +17,7 @@ export const loginUser = (email, password, history) => dispatch => {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         dispatch({ type: SET_AUTHENTICATED });
-        history.push("/initial");
+        history.push("/app/initial");
       })
       .catch(err => {
         console.log(err);

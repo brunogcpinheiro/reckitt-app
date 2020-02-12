@@ -4,23 +4,29 @@ import { TextField } from "@material-ui/core";
 export const InitialHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  > h1 {
+    padding: 10px 0 30px 0;
+  }
+
+  form {
+    p {
+      padding: 10px 0 20px 0;
+    }
+
+    small {
+      margin-bottom: 10px;
+      font-size: 0.7rem;
+      color: #db338f;
+    }
+  }
 `;
 
 export const Date = styled(TextField)`
-  .MuiInputBase-root.Mui-disabled {
-    margin: 20px;
-  }
-
-  .MuiInputLabel-outlined {
-    margin: 10px 0;
-  }
-
   label.Mui-focused {
     color: #db338f;
   }
   .MuiOutlinedInput-root {
-    margin: 10px 0;
-
     fieldset {
       border-color: #db338f;
     }

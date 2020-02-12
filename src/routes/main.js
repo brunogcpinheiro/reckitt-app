@@ -6,13 +6,13 @@ import PrivateRoute from "../utils/PrivateRoute";
 // Import Components
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import InitialPage from "../pages/Initial";
+import Layout from "../components/Layout";
 
 const Routes = () => (
   <Switch>
     <Route exact path="/" component={Login} />
     <Route exact path="/signup" component={Signup} />
-    <PrivateRoute exact path="/initial" component={InitialPage} />
+    <PrivateRoute path="/app" component={Layout} />
   </Switch>
 );
 

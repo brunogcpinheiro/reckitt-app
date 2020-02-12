@@ -2,6 +2,8 @@ import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
+// DADOS TEMPORARIOS, SERÃO SUBSTITUIDOS PARA PRODUÇÃO
+
 const firebaseConfig = {
   apiKey: "AIzaSyDyfr8-dmHZoGR7ehAcbOzj6wBC1hCNq0E",
   authDomain: "reckitt-formulario.firebaseapp.com",
