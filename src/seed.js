@@ -16,6 +16,8 @@ const db = firebase.firestore();
 function seedMinasGerais() {
   var ref = db.collection("stores").doc("minas-gerais");
   ref.set({
+    nome: "Minas Gerais",
+    sigla: "MG",
     contagem: {
       nome: "Contagem",
       lojas: [{ nome: "Sam's Contagem", codigo: 6278 }],
@@ -32,6 +34,8 @@ seedMinasGerais();
 function seedSaoPaulo() {
   var ref = db.collection("stores").doc("sao-paulo");
   ref.set({
+    nome: "São Paulo",
+    sigla: "SP",
     "sao-paulo": {
       nome: "São Paulo",
       lojas: [

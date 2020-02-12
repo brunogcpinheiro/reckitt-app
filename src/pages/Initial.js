@@ -11,7 +11,7 @@ const InitialPage = () => {
   console.log(storesData)
 
   useEffect(() => {
-    dispatch(fetchStoresData)
+    dispatch(fetchStoresData())
   }, [dispatch])
 
   return (
