@@ -1,6 +1,4 @@
-import {
-  SET_STORES_DATA,
-} from "../types";
+import { SET_STORES_DATA } from "../types";
 
 const INITIAL_STATE = {
   loading: false,
@@ -13,8 +11,8 @@ const storesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         stores: [...state.stores, action.payload]
-      }
-      
+      };
+
     default:
       return state;
   }

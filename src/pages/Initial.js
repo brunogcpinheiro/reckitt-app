@@ -8,11 +8,11 @@ const InitialPage = () => {
   const storesData = useSelector(state => state.stores.stores);
   const dispatch = useDispatch();
 
-  console.log(storesData)
+  console.log(storesData);
 
   useEffect(() => {
-    dispatch(fetchStoresData())
-  }, [dispatch])
+    dispatch(fetchStoresData());
+  }, [dispatch]);
 
   return (
     <>

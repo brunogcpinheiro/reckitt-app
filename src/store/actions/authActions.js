@@ -5,7 +5,7 @@ import {
   SET_AUTHENTICATED,
   SET_USER,
   LOADING_USER,
-  SET_UNAUTHENTICATED,
+  SET_UNAUTHENTICATED
 } from "../types";
 
 import { firebaseAuth, firebaseStore } from "../../firebase/init";
@@ -34,7 +34,7 @@ export const signupUser = (userData, history) => () => {
     let slug = slugify(name, {
       replacement: "-",
       remove: /[$*_+~.()'"!\-:@]/g,
-      lower: true,
+      lower: true
     });
 
     let ref = firebaseStore.collection("users").doc(slug);
@@ -53,7 +53,7 @@ export const signupUser = (userData, history) => () => {
                 email,
                 password: hash,
                 isAdmin: false,
-                user_id: cred.user.uid,
+                user_id: cred.user.uid
               })
               .then(() => {
                 history.push("/");
@@ -81,7 +81,7 @@ export const getUserData = () => dispatch => {
       snapshot.forEach(doc => {
         dispatch({
           type: SET_USER,
-          payload: doc.data(),
+          payload: doc.data()
         });
       });
     })

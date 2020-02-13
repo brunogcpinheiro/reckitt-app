@@ -1,14 +1,15 @@
-import {
-  SET_STORES_DATA
-} from "../types";
+import { SET_STORES_DATA } from "../types";
 
 import { firebaseStore } from "../../firebase/init";
 
 export const fetchStoresData = () => dispatch => {
   // dispatch({ type: LOADING_USER });
-  firebaseStore.collection("stores").get().then(snapshot => {
-    snapshot.forEach(doc => {
-      dispatch({ type: SET_STORES_DATA, payload: doc.data() })
+  firebaseStore
+    .collection("stores")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        dispatch({ type: SET_STORES_DATA, payload: doc.data() });
+      });
     });
-  })
 };
