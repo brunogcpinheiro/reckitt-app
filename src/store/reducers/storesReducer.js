@@ -1,18 +1,19 @@
-import { SET_STORES_DATA } from "../types";
+import { SET_STORES_DATA, CLEAR_STORES_DATA } from "../types";
 
 const INITIAL_STATE = {
   loading: false,
-  stores: []
+  storesInfo: []
 };
 
 const storesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_STORES_DATA:
       return {
-        ...state,
-        stores: [...state.stores, action.payload]
+        loading: true,
+        storesInfo: [...state.storesInfo, action.payload]
       };
-
+    case CLEAR_STORES_DATA:
+      return INITIAL_STATE;
     default:
       return state;
   }
