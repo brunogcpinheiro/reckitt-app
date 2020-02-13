@@ -4,12 +4,12 @@
 
 ## TODO
 
-# [checkbox:Loading]
+- [ ] Loading
 
-# [checkbox:Error Handling]
+- [ ] Error Handling
 
-# [checkbox:Flash Messages]
+- [ ] Flash Messages
 
-# [checkbox:Abstrair Componente de Seleção de estados, cidades e lojas]
+- [ ] Abstrair Componente de Seleção de estados, cidades e lojas
 
-# [checkbox:Prover token para persistir o login do usuario por um tempo]
+- [ ] Prover token para persistir o login do usuario por um tempo
