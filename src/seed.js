@@ -8,7 +8,7 @@ firebase.initializeApp({
   projectId: "reckitt-formulario",
   storageBucket: "",
   messagingSenderId: "280111051036",
-  appId: "1:280111051036:web:2da2f5711d1c2637",
+  appId: "1:280111051036:web:2da2f5711d1c2637"
 });
 
 const db = firebase.firestore();
@@ -18,14 +18,16 @@ function seedMinasGerais() {
   ref.set({
     nome: "Minas Gerais",
     sigla: "MG",
-    contagem: {
-      nome: "Contagem",
-      lojas: [{ nome: "Sam's Contagem", codigo: 6278 }],
-    },
-    "belo-horizonte": {
-      nome: "Belo Horizonte",
-      lojas: [{ nome: "Pampulha", codigo: null }],
-    },
+    cidades: [
+      {
+        nome: "Contagem",
+        lojas: [{ nome: "Sam's Contagem", codigo: 6278 }]
+      },
+      {
+        nome: "Belo Horizonte",
+        lojas: [{ nome: "Pampulha", codigo: null }]
+      }
+    ]
   });
 }
 
@@ -36,19 +38,21 @@ function seedSaoPaulo() {
   ref.set({
     nome: "São Paulo",
     sigla: "SP",
-    "sao-paulo": {
-      nome: "São Paulo",
-      lojas: [
-        { nome: "Sam's Vila Leopoldina", codigo: 4415 },
-        { nome: "Sam's Bom Retiro", codigo: 4825 },
-        { nome: "Sam's Radial Leste", codigo: 4918 },
-        { nome: "Sam's Morumbi", codigo: 4930 },
-      ],
-    },
-    "sao-jose-dos-campos": {
-      nome: "São José dos Campos",
-      lojas: [{ nome: "Sam's São José dos Campos", codigo: 4931 }],
-    },
+    cidades: [
+      {
+        nome: "São Paulo",
+        lojas: [
+          { nome: "Sam's Vila Leopoldina", codigo: 4415 },
+          { nome: "Sam's Bom Retiro", codigo: 4825 },
+          { nome: "Sam's Radial Leste", codigo: 4918 },
+          { nome: "Sam's Morumbi", codigo: 4930 }
+        ]
+      },
+      {
+        nome: "São José dos Campos",
+        lojas: [{ nome: "Sam's São José dos Campos", codigo: 4931 }]
+      }
+    ]
   });
 }
 

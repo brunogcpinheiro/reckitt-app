@@ -11,15 +11,22 @@ import Today from "@material-ui/icons/Today";
 import format from "date-fns/format";
 import ptBR from "date-fns/locale/pt-BR";
 
-import { fetchStoresData, cleanUp } from "../../store/actions/storesActions";
+import {
+  fetchStoresData,
+  cleanUp,
+  fetchCityByStateId
+} from "../../store/actions/storesActions";
 import * as S from "./styles";
 
-const InitialHeader = props => {
+const InitialHeader = () => {
   const today = format(new Date(), "dd/MM/yyyy", { locale: ptBR });
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
-  const [selectValue, setSelectValue] = useState("");
+  const [disabledField, setDisabledField] = useState(true);
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
   const storesData = useSelector(state => state.stores.storesInfo);
+  const cityData = useSelector(state => state.stores.cities);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,8 +42,13 @@ const InitialHeader = props => {
   }, [dispatch]);
 
   function handleChange(e) {
-    setSelectValue(e.target.value);
-    console.log(e.target.value);
+    if (e.target.name === "states") {
+      setSelectedState(e.target.value);
+      setDisabledField(false);
+      dispatch(fetchCityByStateId(e.target.value));
+    } else if (e.target.name === "cities") {
+      setSelectedCity(e.target.value);
+    }
   }
 
   return (
@@ -65,14 +77,16 @@ const InitialHeader = props => {
         <p>Selecione a loja a ser avaliada:</p>
         <FormControl variant="outlined">
           <InputLabel id="states" ref={inputLabel}>
-            Loja...
+            ESTADO...
           </InputLabel>
 
           <Select
             labelId="states"
+            name="states"
             onChange={handleChange}
             labelWidth={labelWidth}
-            value={selectValue}
+            value={selectedState}
+            onOpen={() => setSelectedCity("")}
           >
             {storesData &&
               storesData.map(store => (
@@ -80,6 +94,34 @@ const InitialHeader = props => {
                   {store.nome}
                 </MenuItem>
               ))}
+          </Select>
+        </FormControl>
+
+        <br />
+        <br />
+        <br />
+
+        <FormControl variant="outlined">
+          <InputLabel id="cities" ref={inputLabel}>
+            CIDADE...
+          </InputLabel>
+
+          <Select
+            labelId="cities"
+            name="cities"
+            onChange={handleChange}
+            labelWidth={labelWidth}
+            value={selectedCity}
+            disabled={disabledField}
+          >
+            {cityData &&
+              cityData.map(city =>
+                city.cidades.map(c => (
+                  <MenuItem key={c.nome} value={`${c.nome}`}>
+                    {c.nome}
+                  </MenuItem>
+                ))
+              )}
           </Select>
         </FormControl>
       </form>

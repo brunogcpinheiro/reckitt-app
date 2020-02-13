@@ -1,4 +1,4 @@
-import { SET_STORES_DATA, CLEAR_STORES_DATA } from "../types";
+import { SET_STORES_DATA, CLEAR_STORES_DATA, SET_CITY_DATA } from "../types";
 
 import { firebaseStore } from "../../firebase/init";
 
@@ -16,4 +16,8 @@ export const fetchStoresData = () => dispatch => {
 
 export const cleanUp = () => dispatch => {
   dispatch({ type: CLEAR_STORES_DATA });
+};
+
+export const fetchCityByStateId = id => dispatch => {
+  dispatch({ type: SET_CITY_DATA, payload: id });
 };

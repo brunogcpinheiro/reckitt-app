@@ -9,3 +9,4 @@ export const LOADING_USER = "LOADING_USER";
 
 export const SET_STORES_DATA = "SET_STORES_DATA";
 export const CLEAR_STORES_DATA = "CLEAR_STORES_DATA";
+export const SET_CITY_DATA = "SET_CITY_DATA";
