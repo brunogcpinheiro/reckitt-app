@@ -90,8 +90,8 @@ const InitialHeader = () => {
           >
             {storesData &&
               storesData.map(store => (
-                <MenuItem key={store.nome} value={`${store.nome}`}>
-                  {store.nome}
+                <MenuItem key={store._nome} value={`${store._nome}`}>
+                  {store._nome}
                 </MenuItem>
               ))}
           </Select>
@@ -117,8 +117,8 @@ const InitialHeader = () => {
             {cityData &&
               cityData.map(city =>
                 city.cidades.map(c => (
-                  <MenuItem key={c.nome} value={`${c.nome}`}>
-                    {c.nome}
+                  <MenuItem key={c._nome} value={`${c._nome}`}>
+                    {c._nome}
                   </MenuItem>
                 ))
               )}

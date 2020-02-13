@@ -18,7 +18,7 @@ const storesReducer = (state = INITIAL_STATE, action) => {
     case SET_CITY_DATA:
       return {
         ...state,
-        cities: state.storesInfo.filter(f => f.nome === action.payload)
+        cities: state.storesInfo.filter(f => f._nome === action.payload)
       };
     default:
       return state;

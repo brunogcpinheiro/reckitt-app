@@ -16,16 +16,16 @@ const db = firebase.firestore();
 function seedMinasGerais() {
   var ref = db.collection("stores").doc("minas-gerais");
   ref.set({
-    nome: "Minas Gerais",
+    _nome: "Minas Gerais",
     sigla: "MG",
     cidades: [
       {
-        nome: "Contagem",
-        lojas: [{ nome: "Sam's Contagem", codigo: 6278 }]
+        _nome: "Contagem",
+        lojas: [{ _nome: "Sam's Contagem", codigo: 6278 }]
       },
       {
-        nome: "Belo Horizonte",
-        lojas: [{ nome: "Pampulha", codigo: null }]
+        _nome: "Belo Horizonte",
+        lojas: [{ _nome: "Pampulha", codigo: null }]
       }
     ]
   });
@@ -36,21 +36,21 @@ seedMinasGerais();
 function seedSaoPaulo() {
   var ref = db.collection("stores").doc("sao-paulo");
   ref.set({
-    nome: "São Paulo",
+    _nome: "São Paulo",
     sigla: "SP",
     cidades: [
       {
-        nome: "São Paulo",
+        _nome: "São Paulo",
         lojas: [
-          { nome: "Sam's Vila Leopoldina", codigo: 4415 },
-          { nome: "Sam's Bom Retiro", codigo: 4825 },
-          { nome: "Sam's Radial Leste", codigo: 4918 },
-          { nome: "Sam's Morumbi", codigo: 4930 }
+          { _nome: "Sam's Vila Leopoldina", codigo: 4415 },
+          { _nome: "Sam's Bom Retiro", codigo: 4825 },
+          { _nome: "Sam's Radial Leste", codigo: 4918 },
+          { _nome: "Sam's Morumbi", codigo: 4930 }
         ]
       },
       {
-        nome: "São José dos Campos",
-        lojas: [{ nome: "Sam's São José dos Campos", codigo: 4931 }]
+        _nome: "São José dos Campos",
+        lojas: [{ _nome: "Sam's São José dos Campos", codigo: 4931 }]
       }
     ]
   });
