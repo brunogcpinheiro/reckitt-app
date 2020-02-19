@@ -5,7 +5,7 @@ import {
   FormControl,
   Select,
   InputLabel,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
 import Today from "@material-ui/icons/Today";
 import format from "date-fns/format";
@@ -14,7 +14,9 @@ import ptBR from "date-fns/locale/pt-BR";
 import {
   fetchStoresData,
   cleanUp,
-  fetchCityByStateId
+  fetchCityByStateId,
+  fetchFlagsByCityId,
+  fetchStoresByFlagId,
 } from "../../store/actions/storesActions";
 import * as S from "./styles";
 
@@ -25,8 +27,12 @@ const InitialHeader = () => {
   const [disabledField, setDisabledField] = useState(true);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [selectedFlag, setSelectedFlag] = useState("");
+  const [selectedStore, setSelectedStore] = useState("");
   const storesData = useSelector(state => state.stores.storesInfo);
-  const cityData = useSelector(state => state.stores.cities);
+  const citiesFromState = useSelector(state => state.stores.citiesFromState);
+  const flagsFromCity = useSelector(state => state.stores.flagsFromCity);
+  const storesFromFlag = useSelector(state => state.stores.storesFromFlag);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,6 +54,12 @@ const InitialHeader = () => {
       dispatch(fetchCityByStateId(e.target.value));
     } else if (e.target.name === "cities") {
       setSelectedCity(e.target.value);
+      dispatch(fetchFlagsByCityId(selectedState, e.target.value));
+    } else if (e.target.name === "flags") {
+      setSelectedFlag(e.target.value);
+      dispatch(fetchStoresByFlagId(e.target.value));
+    } else if (e.target.name === "stores") {
+      setSelectedStore(e.target.value);
     }
   }
 
@@ -66,7 +78,7 @@ const InitialHeader = () => {
                 <InputAdornment position="start">
                   <Today />
                 </InputAdornment>
-              )
+              ),
             }}
           />
           <small>
@@ -86,18 +98,16 @@ const InitialHeader = () => {
             onChange={handleChange}
             labelWidth={labelWidth}
             value={selectedState}
-            onOpen={() => setSelectedCity("")}
-          >
+            onOpen={() => setSelectedCity("")}>
             {storesData &&
-              storesData.map(store => (
-                <MenuItem key={store._nome} value={`${store._nome}`}>
-                  {store._nome}
+              storesData.map(state => (
+                <MenuItem key={state._nome} value={`${state.id}`}>
+                  {state._nome}
                 </MenuItem>
               ))}
           </Select>
         </FormControl>
 
-        <br />
         <br />
         <br />
 
@@ -113,12 +123,63 @@ const InitialHeader = () => {
             labelWidth={labelWidth}
             value={selectedCity}
             disabled={disabledField}
-          >
-            {cityData &&
-              cityData.map(city =>
-                city.cidades.map(c => (
-                  <MenuItem key={c._nome} value={`${c._nome}`}>
-                    {c._nome}
+            onOpen={() => setSelectedFlag("")}>
+            {citiesFromState &&
+              citiesFromState.map(city => (
+                <MenuItem key={city._nome} value={`${city.id}`}>
+                  {city._nome}
+                </MenuItem>
+              ))}
+            }
+          </Select>
+        </FormControl>
+
+        <br />
+        <br />
+
+        <FormControl variant="outlined">
+          <InputLabel id="flags" ref={inputLabel}>
+            BANDEIRA...
+          </InputLabel>
+
+          <Select
+            labelId="flags"
+            name="flags"
+            onChange={handleChange}
+            labelWidth={labelWidth}
+            value={selectedFlag}
+            disabled={disabledField}
+            onOpen={() => setSelectedStore("")}>
+            {flagsFromCity &&
+              flagsFromCity.map(flag => (
+                <MenuItem key={flag._nome} value={`${flag.id}`}>
+                  {flag._nome}
+                </MenuItem>
+              ))}
+            }
+          </Select>
+        </FormControl>
+
+        <br />
+        <br />
+
+        <FormControl variant="outlined">
+          <InputLabel id="stores" ref={inputLabel}>
+            LOJA...
+          </InputLabel>
+
+          <Select
+            labelId="stores"
+            name="stores"
+            onChange={handleChange}
+            labelWidth={labelWidth}
+            value={selectedStore}
+            disabled={disabledField}>
+            {storesFromFlag &&
+              storesFromFlag.map(store =>
+                store.lojas.map(s => (
+                  <MenuItem key={s._nome} value={`${s._nome}`}>
+                    {s._nome}
                   </MenuItem>
                 ))
               )}

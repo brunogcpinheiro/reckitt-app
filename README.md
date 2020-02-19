@@ -13,3 +13,7 @@
 - [ ] Abstrair Componente de Seleção de estados, cidades e lojas
 
 - [ ] Prover token para persistir o login do usuario por um tempo
+
+- [ ] Ordernar resultados vindos do Firebase
+
+- [ ] Adicionar efeito de transição nas páginas
