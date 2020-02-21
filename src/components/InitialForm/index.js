@@ -20,23 +20,22 @@ import {
 } from "../../store/actions/storesActions";
 import * as S from "./styles";
 
-const InitialHeader = () => {
+const InitialForm = () => {
   const today = format(new Date(), "dd/MM/yyyy", { locale: ptBR });
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
-  const [disabledField, setDisabledField] = useState(true);
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedFlag, setSelectedFlag] = useState("");
   const [selectedStore, setSelectedStore] = useState("");
-  const storesData = useSelector(state => state.stores.storesInfo);
-  const citiesFromState = useSelector(state => state.stores.citiesFromState);
-  const flagsFromCity = useSelector(state => state.stores.flagsFromCity);
-  const storesFromFlag = useSelector(state => state.stores.storesFromFlag);
+  const statesData = useSelector(state => state.stores.statesData);
+  const cities = useSelector(state => state.stores.citiesData);
+  const flags = useSelector(state => state.stores.flagsData);
+  const stores = useSelector(state => state.stores.storesData);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth);
+    setLabelWidth(100);
   }, []);
 
   useEffect(() => {
@@ -50,7 +49,6 @@ const InitialHeader = () => {
   function handleChange(e) {
     if (e.target.name === "states") {
       setSelectedState(e.target.value);
-      setDisabledField(false);
       dispatch(fetchCityByStateId(e.target.value));
     } else if (e.target.name === "cities") {
       setSelectedCity(e.target.value);
@@ -64,8 +62,8 @@ const InitialHeader = () => {
   }
 
   return (
-    <S.InitialHeaderWrapper>
-      <h1>1. Dados Iniciais</h1>
+    <S.InitialFormWrapper>
+      <h2>1. Dados Iniciais</h2>
       <form>
         <FormControl>
           <S.Date
@@ -89,7 +87,7 @@ const InitialHeader = () => {
         <p>Selecione a loja a ser avaliada:</p>
         <FormControl variant="outlined">
           <InputLabel id="states" ref={inputLabel}>
-            ESTADO...
+            ESTADO
           </InputLabel>
 
           <Select
@@ -99,8 +97,8 @@ const InitialHeader = () => {
             labelWidth={labelWidth}
             value={selectedState}
             onOpen={() => setSelectedCity("")}>
-            {storesData &&
-              storesData.map(state => (
+            {statesData &&
+              statesData.map(state => (
                 <MenuItem key={state._nome} value={`${state.id}`}>
                   {state._nome}
                 </MenuItem>
@@ -113,7 +111,7 @@ const InitialHeader = () => {
 
         <FormControl variant="outlined">
           <InputLabel id="cities" ref={inputLabel}>
-            CIDADE...
+            CIDADE
           </InputLabel>
 
           <Select
@@ -122,10 +120,10 @@ const InitialHeader = () => {
             onChange={handleChange}
             labelWidth={labelWidth}
             value={selectedCity}
-            disabled={disabledField}
+            disabled={!selectedState}
             onOpen={() => setSelectedFlag("")}>
-            {citiesFromState &&
-              citiesFromState.map(city => (
+            {cities &&
+              cities.map(city => (
                 <MenuItem key={city._nome} value={`${city.id}`}>
                   {city._nome}
                 </MenuItem>
@@ -139,7 +137,7 @@ const InitialHeader = () => {
 
         <FormControl variant="outlined">
           <InputLabel id="flags" ref={inputLabel}>
-            BANDEIRA...
+            BANDEIRA
           </InputLabel>
 
           <Select
@@ -148,10 +146,10 @@ const InitialHeader = () => {
             onChange={handleChange}
             labelWidth={labelWidth}
             value={selectedFlag}
-            disabled={disabledField}
+            disabled={!selectedCity}
             onOpen={() => setSelectedStore("")}>
-            {flagsFromCity &&
-              flagsFromCity.map(flag => (
+            {flags &&
+              flags.map(flag => (
                 <MenuItem key={flag._nome} value={`${flag.id}`}>
                   {flag._nome}
                 </MenuItem>
@@ -165,7 +163,7 @@ const InitialHeader = () => {
 
         <FormControl variant="outlined">
           <InputLabel id="stores" ref={inputLabel}>
-            LOJA...
+            LOJA
           </InputLabel>
 
           <Select
@@ -174,9 +172,9 @@ const InitialHeader = () => {
             onChange={handleChange}
             labelWidth={labelWidth}
             value={selectedStore}
-            disabled={disabledField}>
-            {storesFromFlag &&
-              storesFromFlag.map(store =>
+            disabled={!selectedFlag}>
+            {stores &&
+              stores.map(store =>
                 store.lojas.map(s => (
                   <MenuItem key={s._nome} value={`${s._nome}`}>
                     {s._nome}
@@ -186,8 +184,8 @@ const InitialHeader = () => {
           </Select>
         </FormControl>
       </form>
-    </S.InitialHeaderWrapper>
+    </S.InitialFormWrapper>
   );
 };
 
-export default InitialHeader;
+export default InitialForm;

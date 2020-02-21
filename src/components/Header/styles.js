@@ -9,6 +9,7 @@ export const HeaderWrapper = styled.div`
   padding: 0 20px;
   background-color: #db338f;
   color: #fff;
+  overflow: hidden;
 `;
 
 export const Logout = styled.p`

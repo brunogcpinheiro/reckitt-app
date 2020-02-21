@@ -14,11 +14,12 @@ export const fetchStoresData = () => dispatch => {
     .collection("dados-lojas")
     .get()
     .then(snapshot => {
-      snapshot.forEach(doc => {
-        dispatch({
-          type: SET_STORES_DATA,
-          payload: { ...doc.data(), id: doc.id },
-        });
+      const states = snapshot.docs.map(doc => {
+        return { ...doc.data(), id: doc.id };
+      });
+      dispatch({
+        type: SET_STORES_DATA,
+        payload: states,
       });
     });
 };
@@ -37,7 +38,10 @@ export const fetchCityByStateId = stateId => dispatch => {
       const cities = snapshot.docs.map(doc => {
         return { ...doc.data(), id: doc.id };
       });
-      dispatch({ type: SET_CITIES_DATA, payload: cities });
+      dispatch({
+        type: SET_CITIES_DATA,
+        payload: cities,
+      });
     });
 };
 
@@ -53,10 +57,16 @@ export const fetchFlagsByCityId = (stateId, cityId) => dispatch => {
       const flags = snapshot.docs.map(doc => {
         return { ...doc.data(), id: doc.id };
       });
-      dispatch({ type: SET_FLAGS_DATA, payload: flags });
+      dispatch({
+        type: SET_FLAGS_DATA,
+        payload: flags,
+      });
     });
 };
 
 export const fetchStoresByFlagId = flagId => dispatch => {
-  dispatch({ type: SET_LOCAL_STORES_DATA, payload: flagId });
+  dispatch({
+    type: SET_LOCAL_STORES_DATA,
+    payload: flagId,
+  });
 };

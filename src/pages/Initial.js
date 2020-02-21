@@ -1,11 +1,11 @@
 import React from "react";
 
-import InitialHeader from "../components/InitialHeader";
+import InitialForm from "../components/InitialForm";
 
 const InitialPage = () => {
   return (
     <>
-      <InitialHeader />
+      <InitialForm />
     </>
   );
 };

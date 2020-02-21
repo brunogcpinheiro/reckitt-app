@@ -8,37 +8,36 @@ import {
 
 const INITIAL_STATE = {
   loading: false,
-  storesInfo: [],
-  citiesFromState: [],
-  flagsFromCity: [],
-  storesFromFlag: [],
+  statesData: [],
+  citiesData: [],
+  flagsData: [],
+  storesData: [],
 };
 
 const storesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_STORES_DATA:
       return {
+        ...state,
         loading: true,
-        storesInfo: [...state.storesInfo, action.payload],
+        statesData: action.payload,
       };
     case CLEAR_STORES_DATA:
       return INITIAL_STATE;
     case SET_CITIES_DATA:
       return {
         ...state,
-        citiesFromState: action.payload,
+        citiesData: action.payload,
       };
     case SET_FLAGS_DATA:
       return {
         ...state,
-        flagsFromCity: action.payload,
+        flagsData: action.payload,
       };
     case SET_LOCAL_STORES_DATA:
       return {
         ...state,
-        storesFromFlag: state.flagsFromCity.filter(
-          f => f.id === action.payload
-        ),
+        storesData: state.flagsData.filter(f => f.id === action.payload),
       };
     default:
       return state;

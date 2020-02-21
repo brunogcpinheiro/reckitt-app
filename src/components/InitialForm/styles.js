@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { TextField } from "@material-ui/core";
 
-export const InitialHeaderWrapper = styled.div`
+export const InitialFormWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 20px;
 
-  > h1 {
+  > h2 {
     padding: 10px 0 30px 0;
   }
 
