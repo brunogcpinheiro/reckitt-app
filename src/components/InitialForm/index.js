@@ -11,13 +11,15 @@ import Today from "@material-ui/icons/Today";
 import format from "date-fns/format";
 import ptBR from "date-fns/locale/pt-BR";
 
+import { getUserData } from "../../store/actions/authActions";
+
 import {
   fetchStoresData,
   cleanUp,
   fetchCityByStateId,
   fetchFlagsByCityId,
   fetchStoresByFlagId,
-} from "../../store/actions/storesActions";
+} from "../../store/actions/initialActions";
 import * as S from "./styles";
 
 const InitialForm = () => {
@@ -28,10 +30,11 @@ const InitialForm = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedFlag, setSelectedFlag] = useState("");
   const [selectedStore, setSelectedStore] = useState("");
-  const statesData = useSelector(state => state.stores.statesData);
-  const cities = useSelector(state => state.stores.citiesData);
-  const flags = useSelector(state => state.stores.flagsData);
-  const stores = useSelector(state => state.stores.storesData);
+  const user = useSelector(state => state.auth.credentials);
+  const statesData = useSelector(state => state.initial.statesData);
+  const cities = useSelector(state => state.initial.citiesData);
+  const flags = useSelector(state => state.initial.flagsData);
+  const stores = useSelector(state => state.initial.storesData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,6 +47,10 @@ const InitialForm = () => {
     return () => {
       dispatch(cleanUp());
     };
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getUserData());
   }, [dispatch]);
 
   function handleChange(e) {
@@ -61,10 +68,27 @@ const InitialForm = () => {
     }
   }
 
+  function saveInitialData(e) {
+    e.preventDefault();
+
+    const { name, email } = user;
+
+    const data = {
+      date: today,
+      state: selectedState,
+      city: selectedCity,
+      flag: selectedFlag,
+      store: selectedStore,
+      user: { name, email },
+    };
+
+    console.log(data);
+  }
+
   return (
     <S.InitialFormWrapper>
       <h2>1. Dados Iniciais</h2>
-      <form>
+      <form onSubmit={saveInitialData}>
         <FormControl>
           <S.Date
             disabled
@@ -183,6 +207,8 @@ const InitialForm = () => {
               )}
           </Select>
         </FormControl>
+
+        <S.SubmitButton type="submit">Salvar e continuar</S.SubmitButton>
       </form>
     </S.InitialFormWrapper>
   );

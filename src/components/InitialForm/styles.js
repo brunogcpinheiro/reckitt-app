@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
+import { lighten } from "polished";
 
 export const InitialFormWrapper = styled.div`
   display: flex;
@@ -33,6 +34,19 @@ export const Date = styled(TextField)`
     }
     &.Mui-focused fieldset {
       border-color: #db338f;
+    }
+  }
+`;
+
+export const SubmitButton = styled(Button)`
+  && {
+    width: 100%;
+    margin-top: 40px;
+    background: #db338f;
+    color: #fff;
+
+    &:hover {
+      background: ${lighten(0.1, `#db338f`)};
     }
   }
 `;

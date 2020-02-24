@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   storesData: [],
 };
 
-const storesReducer = (state = INITIAL_STATE, action) => {
+const initialReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_STORES_DATA:
       return {
@@ -44,4 +44,4 @@ const storesReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default storesReducer;
+export default initialReducer;
