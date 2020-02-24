@@ -3,7 +3,7 @@ import {
   CLEAR_STORES_DATA,
   SET_CITIES_DATA,
   SET_FLAGS_DATA,
-  SET_LOCAL_STORES_DATA,
+  SET_LOCAL_STORES_DATA
 } from "../types";
 
 import { firebaseStore } from "../../firebase/init";
@@ -19,7 +19,7 @@ export const fetchStoresData = () => dispatch => {
       });
       dispatch({
         type: SET_STORES_DATA,
-        payload: states,
+        payload: states
       });
     });
 };
@@ -40,7 +40,7 @@ export const fetchCityByStateId = stateId => dispatch => {
       });
       dispatch({
         type: SET_CITIES_DATA,
-        payload: cities,
+        payload: cities
       });
     });
 };
@@ -54,12 +54,13 @@ export const fetchFlagsByCityId = (stateId, cityId) => dispatch => {
     .collection("bandeiras")
     .get()
     .then(snapshot => {
+      console.log();
       const flags = snapshot.docs.map(doc => {
         return { ...doc.data(), id: doc.id };
       });
       dispatch({
         type: SET_FLAGS_DATA,
-        payload: flags,
+        payload: flags
       });
     });
 };
@@ -67,6 +68,6 @@ export const fetchFlagsByCityId = (stateId, cityId) => dispatch => {
 export const fetchStoresByFlagId = flagId => dispatch => {
   dispatch({
     type: SET_LOCAL_STORES_DATA,
-    payload: flagId,
+    payload: flagId
   });
 };

@@ -5,7 +5,7 @@ import {
   FormControl,
   Select,
   InputLabel,
-  MenuItem,
+  MenuItem
 } from "@material-ui/core";
 import Today from "@material-ui/icons/Today";
 import format from "date-fns/format";
@@ -18,18 +18,23 @@ import {
   cleanUp,
   fetchCityByStateId,
   fetchFlagsByCityId,
-  fetchStoresByFlagId,
+  fetchStoresByFlagId
 } from "../../store/actions/initialActions";
+
+import { removeAccents } from "../../utils/remove-accents";
+
 import * as S from "./styles";
 
 const InitialForm = () => {
   const today = format(new Date(), "dd/MM/yyyy", { locale: ptBR });
   const inputLabel = useRef(null);
   const [labelWidth, setLabelWidth] = useState(0);
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedFlag, setSelectedFlag] = useState("");
-  const [selectedStore, setSelectedStore] = useState("");
+  const [state, setState] = useState({
+    state: "",
+    city: "",
+    flag: "",
+    store: ""
+  });
   const user = useSelector(state => state.auth.credentials);
   const statesData = useSelector(state => state.initial.statesData);
   const cities = useSelector(state => state.initial.citiesData);
@@ -53,20 +58,19 @@ const InitialForm = () => {
     dispatch(getUserData());
   }, [dispatch]);
 
-  function handleChange(e) {
-    if (e.target.name === "states") {
-      setSelectedState(e.target.value);
-      dispatch(fetchCityByStateId(e.target.value));
-    } else if (e.target.name === "cities") {
-      setSelectedCity(e.target.value);
-      dispatch(fetchFlagsByCityId(selectedState, e.target.value));
-    } else if (e.target.name === "flags") {
-      setSelectedFlag(e.target.value);
-      dispatch(fetchStoresByFlagId(e.target.value));
-    } else if (e.target.name === "stores") {
-      setSelectedStore(e.target.value);
-    }
-  }
+  const handleChange = (e, child) => {
+    const { id } = child.props;
+    setState({ ...state, [e.target.name]: e.target.value });
+    let stateId = removeAccents(state.state)
+      .trim()
+      .toLowerCase()
+      .replace(" ", "-");
+
+    if (e.target.name === "state") dispatch(fetchCityByStateId(id));
+    else if (e.target.name === "city")
+      dispatch(fetchFlagsByCityId(stateId, id));
+    else if (e.target.name === "flag") dispatch(fetchStoresByFlagId(id));
+  };
 
   function saveInitialData(e) {
     e.preventDefault();
@@ -74,12 +78,12 @@ const InitialForm = () => {
     const { name, email } = user;
 
     const data = {
-      date: today,
-      state: selectedState,
-      city: selectedCity,
-      flag: selectedFlag,
-      store: selectedStore,
-      user: { name, email },
+      data: today,
+      estado: state.state,
+      cidade: state.city,
+      bandeira: state.flag,
+      loja: state.store,
+      usuario: { name, email }
     };
 
     console.log(data);
@@ -100,7 +104,7 @@ const InitialForm = () => {
                 <InputAdornment position="start">
                   <Today />
                 </InputAdornment>
-              ),
+              )
             }}
           />
           <small>
@@ -116,17 +120,20 @@ const InitialForm = () => {
 
           <Select
             labelId="states"
-            name="states"
+            name="state"
             onChange={handleChange}
             labelWidth={labelWidth}
-            value={selectedState}
-            onOpen={() => setSelectedCity("")}>
+            value={state.state}
+            onOpen={() => setState({ ...state, city: "" })}
+          >
             {statesData &&
-              statesData.map(state => (
-                <MenuItem key={state._nome} value={`${state.id}`}>
-                  {state._nome}
-                </MenuItem>
-              ))}
+              statesData.map(state => {
+                return (
+                  <MenuItem key={state._nome} value={state._nome} id={state.id}>
+                    {state._nome}
+                  </MenuItem>
+                );
+              })}
           </Select>
         </FormControl>
 
@@ -140,15 +147,16 @@ const InitialForm = () => {
 
           <Select
             labelId="cities"
-            name="cities"
+            name="city"
             onChange={handleChange}
             labelWidth={labelWidth}
-            value={selectedCity}
-            disabled={!selectedState}
-            onOpen={() => setSelectedFlag("")}>
+            value={state.city}
+            disabled={!state.state}
+            onOpen={() => setState({ ...state, flag: "" })}
+          >
             {cities &&
               cities.map(city => (
-                <MenuItem key={city._nome} value={`${city.id}`}>
+                <MenuItem key={city._nome} value={city._nome} id={city.id}>
                   {city._nome}
                 </MenuItem>
               ))}
@@ -166,15 +174,16 @@ const InitialForm = () => {
 
           <Select
             labelId="flags"
-            name="flags"
+            name="flag"
             onChange={handleChange}
             labelWidth={labelWidth}
-            value={selectedFlag}
-            disabled={!selectedCity}
-            onOpen={() => setSelectedStore("")}>
+            value={state.flag}
+            disabled={!state.city}
+            onOpen={() => setState({ ...state, store: "" })}
+          >
             {flags &&
               flags.map(flag => (
-                <MenuItem key={flag._nome} value={`${flag.id}`}>
+                <MenuItem key={flag._nome} value={flag._nome} id={flag.id}>
                   {flag._nome}
                 </MenuItem>
               ))}
@@ -192,15 +201,16 @@ const InitialForm = () => {
 
           <Select
             labelId="stores"
-            name="stores"
+            name="store"
             onChange={handleChange}
             labelWidth={labelWidth}
-            value={selectedStore}
-            disabled={!selectedFlag}>
+            value={state.store}
+            disabled={!state.flag}
+          >
             {stores &&
               stores.map(store =>
                 store.lojas.map(s => (
-                  <MenuItem key={s._nome} value={`${s._nome}`}>
+                  <MenuItem key={s._nome} value={s._nome} id={s.id}>
                     {s._nome}
                   </MenuItem>
                 ))
